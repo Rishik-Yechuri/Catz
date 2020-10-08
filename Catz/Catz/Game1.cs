@@ -19,6 +19,16 @@ namespace Catz
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D catTexture;
+        Rectangle catRectangle;
+
+        Texture2D mouseTexture;
+        Rectangle mouseRectangle;
+
+        int xLocMouse = 100;
+        int yLocMouse = 100;
+        int xLocCat = 300;
+        int yLocCat = 300;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -34,7 +44,8 @@ namespace Catz
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            catRectangle = new Rectangle(xLocCat, yLocCat, 125, 125);
+            mouseRectangle = new Rectangle(xLocMouse, yLocMouse, 92, 79);
             base.Initialize();
         }
 
@@ -48,6 +59,8 @@ namespace Catz
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            catTexture = this.Content.Load<Texture2D>("cat");
+            mouseTexture = this.Content.Load<Texture2D>("mouse");
         }
 
         /// <summary>
@@ -71,7 +84,26 @@ namespace Catz
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            KeyboardState kb = Keyboard.GetState();
+            if (kb.IsKeyDown(Keys.W)) {
+                yLocCat -= 1;
+            }  if (kb.IsKeyDown(Keys.S)) {
+                yLocCat += 1;
+            }  if (kb.IsKeyDown(Keys.A)) {
+                xLocCat -= 2;
+            }  if (kb.IsKeyDown(Keys.D)) {
+                xLocCat += 2;
+            }  if (kb.IsKeyDown(Keys.Left)) {
+                xLocMouse -= 1;
+            }  if (kb.IsKeyDown(Keys.Right)) {
+                xLocMouse += 1;
+            }  if (kb.IsKeyDown(Keys.Up)) {
+                yLocMouse -= 2;
+            }  if (kb.IsKeyDown(Keys.Down)) {
+                yLocMouse += 2;
+            }
+            mouseRectangle = new Rectangle(xLocMouse, yLocMouse, 92, 79);
+            catRectangle = new Rectangle(xLocCat, yLocCat, 125, 125);
             base.Update(gameTime);
         }
 
@@ -84,7 +116,10 @@ namespace Catz
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(catTexture, catRectangle, Color.White);
+            spriteBatch.Draw(mouseTexture,mouseRectangle,Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
